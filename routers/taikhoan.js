@@ -4,19 +4,10 @@ var bcrypt = require('bcryptjs');
 var TaiKhoan = require('../models/taikhoan');
 const { isAdmin, isAdmin_Nhanvien, isLoggedIn } = require('../modules/auth');
 const multer = require('multer');
-const path = require('path');
+const cloudinary = require('../models/cloudinary');
+const streamifier = require('streamifier');
 
-// Cấu hình multer lưu ảnh vào thư mục public/uploads
-const storage = multer.diskStorage({
-	destination: (req, file, cb) => {
-		cb(null, 'public/images/avatars');
-	},
-	filename: (req, file, cb) => {
-		const uniqueName = Date.now() + '-' + file.originalname;
-		cb(null, uniqueName);
-	}
-});
-const upload = multer({ storage: storage });
+const upload = multer({ storage: multer.memoryStorage() }); // Lưu vào RAM tạm
 
 // GET: Danh sách tài khoản
 router.get('/', isAdmin, async (req, res) => {
@@ -72,7 +63,26 @@ router.get('/them', isAdmin, async (req, res) => {
 router.post('/them', isAdmin, upload.single('HinhAnh'), async (req, res) => {
 	try {
 		const salt = bcrypt.genSaltSync(10);
-		const hinhAnhPath = req.file ? '/images/avatars/' + req.file.filename : '';
+		let hinhAnhPath = '';
+
+		// Nếu có ảnh
+		if (req.file) {
+		  const streamUpload = (req) => {
+			return new Promise((resolve, reject) => {
+			  const stream = cloudinary.uploader.upload_stream((error, result) => {
+				if (result) {
+				  resolve(result);
+				} else {
+				  reject(error);
+				}
+			  });
+			  streamifier.createReadStream(req.file.buffer).pipe(stream);
+			});
+		  };
+	
+		  const result = await streamUpload(req);
+		  hinhAnhPath = result.secure_url; // URL ảnh từ Cloudinary
+		}	
 
 		var data = {
 			HoVaTen: req.body.HoVaTen,
@@ -103,7 +113,26 @@ router.get('/sua/:id', isAdmin, async (req, res) => {
 router.post('/sua/:id', isAdmin, upload.single('HinhAnh'), async (req, res) => {
 	try {
 		const salt = bcrypt.genSaltSync(10);
-		const hinhAnhPath = req.file ? '/images/avatars/' + req.file.filename : '';
+		let hinhAnhPath = '';
+
+		// Nếu có ảnh
+		if (req.file) {
+		  const streamUpload = (req) => {
+			return new Promise((resolve, reject) => {
+			  const stream = cloudinary.uploader.upload_stream((error, result) => {
+				if (result) {
+				  resolve(result);
+				} else {
+				  reject(error);
+				}
+			  });
+			  streamifier.createReadStream(req.file.buffer).pipe(stream);
+			});
+		  };
+	
+		  const result = await streamUpload(req);
+		  hinhAnhPath = result.secure_url; // URL ảnh từ Cloudinary
+		}	
 
 		var id = req.params.id;
 		var data = {
@@ -151,9 +180,26 @@ router.post('/hosocuatoi', isLoggedIn, upload.single('HinhAnh'), async (req, res
 		const currentUser = await TaiKhoan.findById(id);
 
 		// Nếu người dùng upload ảnh thì lấy ảnh mới, ngược lại giữ ảnh cũ
-		const hinhAnhPath = req.file
-			? '/images/avatars/' + req.file.filename
-			: currentUser.HinhAnh;
+		let hinhAnhPath = '';
+
+		// Nếu có ảnh
+		if (req.file) {
+		  const streamUpload = (req) => {
+			return new Promise((resolve, reject) => {
+			  const stream = cloudinary.uploader.upload_stream((error, result) => {
+				if (result) {
+				  resolve(result);
+				} else {
+				  reject(error);
+				}
+			  });
+			  streamifier.createReadStream(req.file.buffer).pipe(stream);
+			});
+		  };
+	
+		  const result = await streamUpload(req);
+		  hinhAnhPath = result.secure_url; // URL ảnh từ Cloudinary
+		}	
 
 		const data = {
 			HoVaTen: req.body.HoVaTen,
