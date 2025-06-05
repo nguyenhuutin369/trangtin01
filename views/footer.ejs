@@ -1,0 +1,70 @@
+<!-- Footer -->
+<footer class="bg-dark text-white pt-5 pb-4">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-3 col-md-6 mb-4 mb-lg-0">
+                <h5 class="text-uppercase mb-4">Về tNews</h5>
+                <p>Trang tin tức điện tử hàng đầu Việt Nam, cung cấp thông tin chính xác, nhanh chóng và đa chiều.
+                </p>
+                <div class="social-links mt-4">
+                    <% if(links) { %>
+                        <% if(links.facebook) { %>
+                            <a href="<%= links.facebook %>" class="text-primary me-3" target="_blank"><i class="fab fa-facebook-f"></i></a>
+                        <% } %>
+                        <% if(links.twitter) { %>
+                            <a href="<%= links.twitter %>" class="text-info me-2" target="_blank">
+                                <i class="fab fa-twitter"></i></a>
+                        <% } %>
+                        <% if(links.youtube) { %>
+                            <a href="<%= links.youtube %>" class="text-danger me-2" target="_blank">
+                                <i class="fab fa-youtube"></i></a>
+                        <% } %>
+                        <% if(links.linkedin) { %>
+                            <a href="<%= links.linkedin %>" class="text-primary me-2" target="_blank">
+                                <i class="fab fa-linkedin-in"></i></a>
+                        <% } %>
+                        <% if(links.tiktok) { %>
+                            <a href="<%= links.tiktok %>" class="text-white me-2" target="_blank">
+                                <i class="fab fa-tiktok"></i></a>
+                        <% } %>
+                        <% if(links.zalo) { %>
+                            <a href="<%= links.zalo %>" class="me-2" target="_blank">
+                                <img src="/images/icon_zalo.svg" alt="Zalo" style="width: 20px; height: 20px;"></a>												
+                        <% } %>
+                    <% } %>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6 mb-4 mb-lg-0">
+                <h5 class="text-uppercase mb-4">Liên kết nhanh</h5>
+                <ul class="list-unstyled">
+                    <li class="mb-2"><a href="/" class="text-white text-decoration-none">Trang chủ</a></li>
+                    <li class="mb-2"><a href="/baiviet/chitiet/6840491c88e43906148d90f3" class="text-white text-decoration-none">Giới thiệu</a></li>
+                </ul>
+            </div>
+            <div class="col-lg-3 col-md-6 mb-4 mb-lg-0">
+                <h5 class="text-uppercase mb-4">Chính sách</h5>
+                <ul class="list-unstyled">
+                    <li class="mb-2"><a href="/baiviet/chitiet/68403ca6252630629c5d36e6" class="text-white text-decoration-none">Điều khoản sử dụng</a></li>
+                    <li class="mb-2"><a href="/baiviet/chitiet/68403ec688e43906148d9009" class="text-white text-decoration-none">Chính sách bảo mật</a></li>
+                    <li class="mb-2"><a href="/baiviet/chitiet/6840425188e43906148d9048" class="text-white text-decoration-none">Quyền riêng tư</a></li>
+                </ul>
+            </div>
+            <div class="col-lg-3 col-md-6 mb-4 mb-lg-0">
+                <h5 class="text-uppercase mb-4">Liên hệ</h5>
+                <ul class="list-unstyled">
+                    <ul class="list-unstyled">
+                        <li class="mb-2"><i class="fas fa-map-marker-alt me-2"></i> 18 Ung Văn Khiêm - P. Mỹ Xuyên - TP. Long Xuyên - An Giang</li>
+                        <li class="mb-2"><i class="fas fa-phone me-2"></i> (084) 917421202</li>
+                        <li class="mb-2"><i class="fas fa-envelope me-2"></i> nguyenhuutin@gmail.com</li>
+                    <li><i class="fas fa-clock me-2"></i> Thứ 2 - Thứ 6: 8:00 - 17:00</li>
+                </ul>
+            </div>
+        </div>
+        <hr class="my-4 bg-light">
+        <div class="row align-items-center">
+            <div class="col-md-6 text-center text-md-start">
+                <p class="mb-0">&copy; 2025 tNews. Bảo lưu mọi quyền.</p>
+            </div>
+        </div>
+    </div>
+</footer>

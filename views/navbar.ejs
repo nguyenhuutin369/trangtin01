@@ -1,0 +1,92 @@
+<style>
+    .dropdown-menu {
+        max-height: 300px;
+        /* hoặc 400px tùy bạn */
+        overflow-y: auto;
+    }
+</style>
+
+<!-- Navigation -->
+<nav class="navbar navbar-expand-lg navbar-light sticky-top">
+    <div class="container">
+        <a class="navbar-brand" href="/">
+            <i class="fas fa-newspaper me-2"></i>tNews
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                        data-bs-toggle="dropdown">
+                        <i class="fas fa-bars me-1"></i> Chuyên mục
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <% if(typeof chuyenmuc !=="undefined" ) { chuyenmuc.forEach(cd=> { %>
+                            <li><a class="dropdown-item" href="/baiviet/chude/<%= cd._id %>">
+                                    <%= cd.TenChuDe %>
+                                </a></li>
+                            <% }); } %>
+                    </ul>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/xemnhieu"><i class="fas fa-fire me-1"></i> Nổi bật</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/"><i class="fas fa-clock me-1"></i> Mới nhất</a>
+                </li>
+            </ul>
+
+            <form class="d-flex me-3" role="search" action="/timkiem" method="post">
+                <div class="input-group">
+                    <input name="tukhoa" class="form-control" type="search" placeholder="Tìm kiếm...">
+                    <button class="btn btn-outline-primary" type="submit"><i class="fas fa-search"></i></button>
+                </div>
+            </form>
+
+            <ul class="navbar-nav">
+                <% if(typeof session !=="undefined" && session.MaNguoiDung) { %>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" id="userDropdown"
+                            role="button" data-bs-toggle="dropdown">
+                            <% if(session.HinhAnh) { %>
+                                <img src="<%= session.HinhAnh %>" alt="Avatar" width="32" height="32"
+                                    class="rounded-circle me-2" style="object-fit: cover;" />
+                                <% } else { %>
+                                    <i class="fas fa-user-circle me-2 fa-lg"></i>
+                                    <% } %>
+                                        <span>
+                                            <%= session.HoVaTen || 'Tài khoản' %>
+                                        </span>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                            <% if(session.QuyenHan==='admin' || session.QuyenHan==='nhanvien' ) { %>
+                                <li><a class="dropdown-item" href="/admin"><i
+                                            class="fas fa-tachometer-alt me-2"></i>Quản lý</a></li>
+                                <% } %>
+                                    <li><a class="dropdown-item" href="/taikhoan/hosocuatoi"><i
+                                                class="fas fa-user me-2"></i>Hồ sơ</a></li>
+                                    <li>
+                                        <li><a class="dropdown-item" href="/baiviet/yeuthich/view"><i
+                                            class="fas fa-user me-2"></i>Bài viết yêu thích</a></li>
+                                <li>
+                                        <hr class="dropdown-divider">
+                                    </li>
+                                    <li><a class="dropdown-item" href="/dangxuat"><i
+                                                class="fas fa-sign-out-alt me-2"></i>Đăng xuất</a></li>
+                        </ul>
+                    </li>
+                    <% } else { %>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/dangnhap"><i class="fas fa-sign-in-alt me-1"></i> Đăng nhập</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="btn btn-primary ms-2" href="/dangky">Đăng ký</a>
+                        </li>
+                        <% } %>
+            </ul>
+        </div>
+    </div>
+</nav>

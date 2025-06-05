@@ -1,0 +1,665 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description"
+        content="<%= (typeof baiviet !== 'undefined') ? baiviet.TomTat : 'Trang tin điện tử hàng đầu với nội dung đa dạng, cập nhật tin tức mới nhất 24/7' %>" />
+    <meta name="author" content="Nguyễn Hoàng Tùng" />
+    <title>
+        <%= (typeof baiviet !=="undefined" ) ? baiviet.TieuDe : 'N/A' %> - tNews | Trang tin điện tử
+    </title>
+
+    <!-- Font & CSS -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Serif:wght@400;700&display=swap"
+        rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #2563eb;
+            --secondary-color: #1e40af;
+            --dark-color: #1e293b;
+            --light-color: #f8fafc;
+            --gray-color: #64748b;
+            --border-radius: 8px;
+            --box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --transition: all 0.3s ease;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            color: var(--dark-color);
+            background-color: #f5f7fa;
+            line-height: 1.6;
+        }
+
+        /* Navigation */
+        .navbar {
+            box-shadow: var(--box-shadow);
+            padding: 1rem 0;
+            background-color: white !important;
+        }
+
+        .navbar-brand {
+            font-weight: 700;
+            font-size: 1.75rem;
+            color: var(--primary-color);
+            transition: var(--transition);
+        }
+
+        .navbar-brand:hover {
+            color: var(--secondary-color);
+        }
+
+        .nav-link {
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: var(--border-radius);
+            transition: var(--transition);
+        }
+
+        .nav-link:hover {
+            color: var(--primary-color);
+            background-color: rgba(37, 99, 235, 0.1);
+        }
+
+        /* Article Content */
+        .article-header {
+            margin-bottom: 2rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .article-title {
+            font-family: 'Noto Serif', serif;
+            font-weight: 700;
+            font-size: 2.5rem;
+            line-height: 1.2;
+            margin-bottom: 1rem;
+            color: var(--dark-color);
+        }
+
+        .article-meta {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1rem;
+            color: var(--gray-color);
+            font-size: 0.9rem;
+        }
+
+        .article-meta .divider {
+            margin: 0 0.5rem;
+            color: #cbd5e1;
+        }
+
+        .article-content {
+            font-family: 'Noto Serif', serif;
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: #334155;
+        }
+
+        .article-content img {
+            max-width: 100%;
+            height: auto;
+            border-radius: var(--border-radius);
+            margin: 1.5rem 0;
+        }
+
+        .article-content p {
+            margin-bottom: 1.5rem;
+        }
+
+        .article-content h2,
+        .article-content h3 {
+            font-family: 'Inter', sans-serif;
+            margin: 2rem 0 1rem;
+            color: var(--dark-color);
+        }
+
+        /* Comments Section */
+        .comments-section {
+            margin-top: 3rem;
+            padding-top: 2rem;
+            border-top: 1px solid #e2e8f0;
+        }
+
+        .comment {
+            display: flex;
+            margin-bottom: 2rem;
+            padding: 1.5rem;
+            background-color: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+        }
+
+        .comment-avatar {
+            flex: 0 0 60px;
+            margin-right: 1.5rem;
+        }
+
+        .comment-avatar img {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .comment-body {
+            flex: 1;
+        }
+
+        .comment-author {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--dark-color);
+        }
+
+        .comment-meta {
+            font-size: 0.8rem;
+            color: var(--gray-color);
+            margin-bottom: 0.5rem;
+        }
+
+        .comment-text {
+            margin-bottom: 0.5rem;
+        }
+
+        .comment-reply {
+            font-size: 0.9rem;
+            color: var(--primary-color);
+            cursor: pointer;
+        }
+
+        /* Comment Form */
+        .comment-form {
+            background-color: white;
+            padding: 2rem;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            margin-top: 2rem;
+        }
+
+        .comment-form h4 {
+            margin-bottom: 1.5rem;
+        }
+
+        /* Sidebar */
+        .sidebar-card {
+            background-color: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            margin-bottom: 1.5rem;
+            transition: var(--transition);
+            overflow: hidden;
+        }
+
+        .sidebar-card-header {
+            padding: 1rem 1.5rem;
+            background-color: #f8fafc;
+            border-bottom: 1px solid #e2e8f0;
+            font-weight: 600;
+        }
+
+        .sidebar-card-body {
+            padding: 1.5rem;
+        }
+
+        .sidebar-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+
+        .popular-post {
+            display: flex;
+            margin-bottom: 1rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .popular-post:last-child {
+            margin-bottom: 0;
+            padding-bottom: 0;
+            border-bottom: none;
+        }
+
+        .popular-post-img {
+            flex: 0 0 80px;
+            margin-right: 1rem;
+        }
+
+        .popular-post-img img {
+            width: 80px;
+            height: 60px;
+            object-fit: cover;
+            border-radius: 4px;
+        }
+
+        .popular-post-title {
+            font-size: 0.9rem;
+            font-weight: 500;
+            margin-bottom: 0.25rem;
+        }
+
+        .popular-post-meta {
+            font-size: 0.75rem;
+            color: var(--gray-color);
+        }
+
+        .tag {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            background-color: #f1f5f9;
+            border-radius: 50px;
+            margin: 0 0.5rem 0.5rem 0;
+            font-size: 0.8rem;
+            transition: var(--transition);
+        }
+
+        .tag:hover {
+            background-color: #e2e8f0;
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+
+        /* Newsletter */
+        .newsletter-section {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 3rem 0;
+            margin-top: 3rem;
+        }
+
+        /* Footer */
+        .site-footer {
+            background-color: var(--dark-color);
+            color: white;
+            padding: 3rem 0;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .article-title {
+                font-size: 1.8rem;
+            }
+
+            .comment {
+                flex-direction: column;
+            }
+
+            .comment-avatar {
+                margin-right: 0;
+                margin-bottom: 1rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <%- include('navbar') %>
+
+        <!-- Main Content -->
+        <main class="main pt-5">
+            <div class="container">
+                <div class="row">
+                    <!-- Article Content -->
+                    <div class="col-lg-8">
+                        <% if(typeof baiviet !=="undefined" ) { %>
+                            <article class="article">
+                                <!-- Article Header -->
+                                <header class="article-header">
+                                    <h1 class="article-title">
+                                        <%= baiviet.TieuDe %>
+                                    </h1>
+
+                                    <div class="article-meta">
+                                        <span><i class="far fa-user me-1"></i>
+                                            <%= baiviet.TacGia || 'tNews' %>
+                                        </span>
+                                        <span class="divider">|</span>
+                                        <span><i class="far fa-clock me-1"></i>
+                                            <%= new Date(baiviet.NgayDang).toLocaleDateString('vi-VN', { day: '2-digit'
+                                                , month: '2-digit' , year: 'numeric' }) %>
+                                        </span>
+                                        <span class="divider">|</span>
+                                        <span><i class="far fa-eye me-1"></i>
+                                            <%= baiviet.LuotXem || 0 %> lượt xem
+                                        </span>
+                                        <span class="divider">|</span>
+                                        <span><i class="far fa-comments me-1"></i>
+                                            <%= soBinhLuan %> bình luận
+                                        </span>
+
+                                        <% if (session && session.MaNguoiDung) { %>
+                                            <button id="btn-love" class="btn btn-light" onclick="toggleLove()">
+                                                <i id="love-icon"
+                                                    class="fa<%= yeuthich ? 's' : 'r' %> fa-heart text-danger"></i>
+                                            </button>
+                                            <% } else { %>
+                                                <button class="btn btn-light"
+                                                    onclick="alert('Bạn cần đăng nhập để yêu thích bài viết')">
+                                                    <i class="far fa-heart text-danger"></i>
+                                                </button>
+                                                <% } %>
+
+                                    </div>
+
+                                    <div class="d-flex align-items-center">
+                                        <span class="badge bg-primary me-2">
+                                            <%= baiviet.ChuDe.TenChuDe %>
+                                        </span>
+                                    </div>
+
+                                </header>
+
+                                <!-- Article Summary -->
+                                <div class="alert alert-light mb-4" role="alert">
+                                    <h5 class="alert-heading">Tóm tắt</h5>
+                                    <p class="mb-0">
+                                        <%= baiviet.TomTat %>
+                                    </p>
+                                </div>
+
+                                <!-- Article Content -->
+                                <div class="article-content">
+                                    <%- baiviet.NoiDung %>
+                                </div>
+
+                                <!-- Article Tags -->
+                                <div class="article-tags mt-4 mb-4">
+                                    <span class="me-2"><i class="fas fa-tags"></i> Tags:</span>
+                                    <a href="/baiviet/chude/<%= baiviet.ChuDe._id %>"
+                                        class="badge bg-secondary text-decoration-none me-1">
+                                        <%= baiviet.ChuDe.TenChuDe %>
+                                    </a>
+                                </div>
+
+                                <!-- Comments Section -->
+                                <section class="comments-section mb-4" id="comments">
+                                    <h4 class="mb-4">Bình luận</h4>
+                                    <% if (binhluan.length> 0) { %>
+                                        <% binhluan.forEach(bl=> { %>
+                                            <div class="comment mb-4 d-flex">
+                                                <div class="comment-avatar me-3">
+                                                    <img src="<%= bl.hinhanh || '/images/avatars/user.png' %>"
+                                                        alt="avatar" width="50" class="rounded-circle">
+                                                </div>
+                                                <div class="comment-body">
+                                                    <h5 class="comment-author mb-1">
+                                                        <%= bl.ten %>
+                                                    </h5>
+                                                    <small class="text-muted">
+                                                        <%= new Date(bl.ngay).toLocaleString('vi-VN') %>
+                                                    </small>
+                                                    <p class="comment-text mt-2">
+                                                        <%= bl.noidung %>
+                                                    </p>
+                                                </div>
+                                            </div>
+                                            <% }) %>
+
+                                                <!-- Phân trang -->
+                                                <% if (totalPages> 1) { %>
+                                                    <nav aria-label="Phân trang bình luận">
+                                                        <ul class="pagination">
+                                                            <% for (let i=1; i <=totalPages; i++) { %>
+                                                                <li
+                                                                    class="page-item <%= i === currentPage ? 'active' : '' %>">
+                                                                    <a class="page-link" href="?page=<%= i %>#comments">
+                                                                        <%= i %>
+                                                                    </a>
+                                                                </li>
+                                                                <% } %>
+                                                        </ul>
+                                                    </nav>
+                                                    <% } %>
+
+                                                        <% } else { %>
+                                                            <p>Chưa có bình luận nào.</p>
+                                                            <% } %>
+
+                                                                <!-- Comment Form -->
+                                                                <div class="comment-form">
+                                                                    <h4>Viết bình luận</h4>
+                                                                    <form action="/binhluan/guibinhluan" method="POST">
+                                                                        <input type="hidden" name="baivietId"
+                                                                            value="<%= baiviet._id %>">
+
+                                                                        <% if (!session || !session.MaNguoiDung) { %>
+                                                                            <input type="text" name="ten"
+                                                                                class="form-control mb-3"
+                                                                                placeholder="Tên của bạn" required>
+                                                                            <input type="email" name="email"
+                                                                                class="form-control mb-3"
+                                                                                placeholder="Email của bạn">
+                                                                            <% } else { %>
+                                                                                <!-- Người dùng đã đăng nhập: dùng session -->
+                                                                                <input type="hidden" name="ten"
+                                                                                    value="<%= session.HoVaTen %>">
+                                                                                <input type="hidden" name="email"
+                                                                                    value="<%= session.Email %>">
+                                                                                <p class="mb-3"><strong>Bạn đang bình
+                                                                                        luận với
+                                                                                        tư cách:</strong>
+                                                                                    <%= session.HoVaTen %> (<%=
+                                                                                            session.Email %>
+                                                                                            )
+                                                                                </p>
+                                                                                <% } %>
+
+                                                                                    <textarea name="noidung"
+                                                                                        class="form-control mb-3"
+                                                                                        rows="4"
+                                                                                        placeholder="Nội dung bình luận"
+                                                                                        required></textarea>
+                                                                                    <button type="submit"
+                                                                                        class="btn btn-primary">Gửi bình
+                                                                                        luận</button>
+                                                                    </form>
+                                                                </div>
+                                </section>
+                            </article>
+                            <% } else { %>
+                                <div class="alert alert-danger" role="alert">
+                                    Bài viết không tồn tại hoặc đã bị xóa.
+                                </div>
+                                <% } %>
+                    </div>
+
+                    <!-- Sidebar -->
+                    <div class="col-lg-4">
+                        <!-- About Widget -->
+                        <div class="sidebar-card">
+                            <div class="sidebar-card-header">
+                                <i class="fas fa-info-circle me-2"></i> Giới thiệu
+                            </div>
+                            <div class="sidebar-card-body">
+                                <p>Đọc tin tức trên trang web này sẽ giúp bạn có cái nhìn khách quan về cuộc sống. Đừng
+                                    quên chia sẻ trang này cho bạn bè và người thân.</p>
+                                <div class="social-links mt-3">
+                                    <% if(links) { %>
+                                        <% if(links.facebook) { %>
+                                            <a href="<%= links.facebook %>" class="text-primary me-3" target="_blank"><i
+                                                    class="fab fa-facebook-f"></i></a>
+                                            <% } %>
+                                                <% if(links.twitter) { %>
+                                                    <a href="<%= links.twitter %>" class="text-info me-2"
+                                                        target="_blank">
+                                                        <i class="fab fa-twitter"></i></a>
+                                                    <% } %>
+                                                        <% if(links.youtube) { %>
+                                                            <a href="<%= links.youtube %>" class="text-danger me-2"
+                                                                target="_blank">
+                                                                <i class="fab fa-youtube"></i></a>
+                                                            <% } %>
+                                                                <% if(links.linkedin) { %>
+                                                                    <a href="<%= links.linkedin %>"
+                                                                        class="text-primary me-2" target="_blank">
+                                                                        <i class="fab fa-linkedin-in"></i></a>
+                                                                    <% } %>
+                                                                        <% if(links.tiktok) { %>
+                                                                            <a href="<%= links.tiktok %>"
+                                                                                class="text-dark me-2" target="_blank">
+                                                                                <i class="fab fa-tiktok"></i></a>
+                                                                            <% } %>
+                                                                                <% if(links.zalo) { %>
+                                                                                    <a href="<%= links.zalo %>"
+                                                                                        class="me-2" target="_blank">
+                                                                                        <img src="/images/icon_zalo.svg"
+                                                                                            alt="Zalo"
+                                                                                            style="width: 20px; height: 20px;"></a>
+                                                                                    <% } %>
+                                                                                        <% } %>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Popular Posts -->
+                        <div class="sidebar-card">
+                            <div class="sidebar-card-header">
+                                <i class="fas fa-fire me-2"></i> Xem nhiều nhất
+                            </div>
+                            <div class="sidebar-card-body">
+                                <% if(typeof xemnhieunhat !=="undefined" ) { xemnhieunhat.slice(0, 5).forEach(bv=> { %>
+                                    <div class="popular-post">
+                                        <div class="popular-post-img">
+                                            <a href="/baiviet/chitiet/<%= bv._id %>">
+                                                <img src="<%- firstImage(bv.NoiDung) %>" alt="<%= bv.TieuDe %>">
+                                            </a>
+                                        </div>
+                                        <div class="popular-post-content">
+                                            <h5 class="popular-post-title">
+                                                <a href="/baiviet/chitiet/<%= bv._id %>"
+                                                    class="text-dark text-decoration-none">
+                                                    <%= bv.TieuDe %>
+                                                </a>
+                                            </h5>
+                                            <div class="popular-post-meta">
+                                                <time datetime="<%= bv.NgayDang %>">
+                                                    <%= new Date(bv.NgayDang).toLocaleDateString('vi-VN', {
+                                                        day: '2-digit' , month: '2-digit' }) %>
+                                                </time>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <% }); } %>
+                            </div>
+                        </div>
+
+                        <!-- Categories -->
+                        <div class="sidebar-card mb-4 shadow-sm">
+                            <div class="sidebar-card-header bg-white border-0">
+                                <h5 class="mb-0"><i class="fas fa-folder-open text-primary me-2"></i> Chuyên mục</h5>
+                            </div>
+                            <div class="sidebar-card-body">
+                                <div class="d-flex flex-wrap">
+                                    <% if(typeof chuyenmuc !=="undefined" ) { chuyenmuc.forEach(cd=> { %>
+                                        <a href="/baiviet/chude/<%= cd._id %>"
+                                            class="btn btn-sm btn-outline-secondary rounded-pill me-2 mb-2">
+                                            <%= cd.TenChuDe %>
+                                        </a>
+                                        <% }); } %>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Newsletter -->
+                        <div class="sidebar-card border-primary">
+                            <div class="sidebar-card-header bg-primary text-white">
+                                <i class="fas fa-envelope me-2"></i> Nhận bản tin
+                            </div>
+                            <div class="sidebar-card-body">
+                                <p>Đăng ký để nhận tin tức mới nhất hàng ngày vào hộp thư của bạn.</p>
+                                <form id="newsletterForm" class="mt-3">
+                                    <div class="mb-3">
+                                        <input type="email" class="form-control" id="newsletterEmail"
+                                            placeholder="Email của bạn">
+                                    </div>
+                                    <button type="submit" class="btn btn-primary w-100">Đăng ký ngay</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <%- include('footer') %>
+
+            <!-- Back to Top Button -->
+            <a href="#" class="btn btn-primary rounded-circle back-to-top shadow"
+                style="position: fixed; bottom: 20px; right: 20px; width: 50px; height: 50px; display: flex; align-items: center; justify-content: center;">
+                <i class="fas fa-arrow-up"></i>
+            </a>
+
+            <!-- Scripts -->
+            <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+            <script>
+                // Back to top button
+                $(document).ready(function () {
+                    $(window).scroll(function () {
+                        if ($(this).scrollTop() > 100) {
+                            $('.back-to-top').fadeIn();
+                        } else {
+                            $('.back-to-top').fadeOut();
+                        }
+                    });
+
+                    $('.back-to-top').click(function () {
+                        $('html, body').animate({ scrollTop: 0 }, 800);
+                        return false;
+                    });
+                });
+
+                document.getElementById('newsletterForm').addEventListener('submit', async function (e) {
+                    e.preventDefault();
+                    const email = document.getElementById('newsletterEmail').value;
+
+                    try {
+                        const res = await fetch('/newsletter/dangky', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({ email })
+                        });
+
+                        const data = await res.json();
+                        alert(data.message);
+                    } catch (err) {
+                        alert('Lỗi khi gửi đăng ký');
+                        console.error(err);
+                    }
+                });
+
+                function toggleLove() {
+                    fetch('/baiviet/yeuthich', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({ baivietId: "<%= baiviet._id %>" })
+                    })
+                        .then(res => res.json())
+                        .then(data => {
+                            const icon = document.getElementById('love-icon');
+                            if (data.loved) {
+                                icon.classList.remove('far'); // icon viền
+                                icon.classList.add('fas'); // icon đầy
+                            } else {
+                                icon.classList.remove('fas');
+                                icon.classList.add('far');
+                            }
+                        })
+                        .catch(err => {
+                            console.error(err);
+                        });
+                }
+            </script>
+</body>
+
+</html>
